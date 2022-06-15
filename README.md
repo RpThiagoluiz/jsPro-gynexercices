@@ -4,3 +4,6 @@
 
 TypeScript
 rapidapi
+
+Falta
+Loadings ao durante pesquisa.

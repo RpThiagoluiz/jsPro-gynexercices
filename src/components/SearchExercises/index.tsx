@@ -1,70 +1,29 @@
-import useAxios from "axios-hooks";
 import { useEffect, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { headers } from "../../requests/fetchExercises";
-import { endPoints } from "../../url";
-
-type IExercise = {
-  bodyPart: string;
-  equipment: string;
-  gifUrl: string;
-  id: string;
-  name: string;
-  target: string;
-};
+import { HorizontalScrollbar } from "../HorizontalScrollbar";
+import { useExercisesContext } from "../../Hooks";
 
 export const SearchExercises = () => {
   const [search, setSearch] = useState("");
-  const [exercises, setExercises] = useState<IExercise[] | []>([]);
-  const [bodyParts, setBodyParts] = useState<string[] | []>([]);
 
-  const [{ data: exercisesData, loading }, handleSearch] = useAxios<
-    IExercise[]
-  >(
-    {
-      url: endPoints.exercises,
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": headers.rapidApiExercisesKey,
-        "X-RapidAPI-Host": headers.rapidApiExercisesHost,
-      },
-    },
-    { manual: true }
-  );
-
-  const [
-    { data: bodyPartsData, loading: bodyPartsDataLoading },
-    getAllBodyParts,
-  ] = useAxios<string[]>(
-    {
-      url: endPoints.exercisesBodyPartList,
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": headers.rapidApiExercisesKey,
-        "X-RapidAPI-Host": headers.rapidApiExercisesHost,
-      },
-    },
-    { manual: true }
-  );
-
-  // const handleSearch = async () => {
-  //   if (!search) {
-  //     // Pure FetchData
-  //     const exercisesData = await fetchExercises(
-  //       endPoints.exercisesBodyPartList,
-  //       exercisesOptions
-  //     );
-
-  //     console.log(exercisesData);
-  //   }
-  // };
+  const {
+    bodyPart,
+    setBodyPart,
+    setExercises,
+    exercises,
+    fetchExercises,
+    loadingExercises,
+    bodyPartsDataLoading,
+    fetchAllBodyParts,
+    bodyParts,
+  } = useExercisesContext();
 
   const filterExercises = () => {
-    if (!exercisesData) {
+    if (!exercises) {
       return;
     }
 
-    const searchExercises = exercisesData.filter(
+    const searchExercises = exercises.filter(
       (exercise) =>
         exercise.name.toLowerCase().includes(search) ||
         exercise.target.toLowerCase().includes(search) ||
@@ -78,24 +37,15 @@ export const SearchExercises = () => {
 
   const handleSearchChange = async () => {
     if (search) {
-      await handleSearch();
+      console.log(`search - ${search}`);
+      await fetchExercises();
       filterExercises();
     }
   };
 
   useEffect(() => {
-    console.log(`aqui useEffect firstTime`);
-    const fetchFirstAcess = async () => {
-      await getAllBodyParts();
-    };
-    fetchFirstAcess();
+    fetchAllBodyParts();
   }, []);
-
-  useEffect(() => {
-    if (bodyPartsData) {
-      setBodyParts(["all", ...bodyPartsData]);
-    }
-  }, [bodyPartsData]);
 
   return (
     <Stack alignItems="center" mt="37px" justifyContent="center" p="20px">
@@ -135,7 +85,7 @@ export const SearchExercises = () => {
         />
         <Button
           className="search-btn"
-          disabled={loading}
+          disabled={loadingExercises}
           onClick={handleSearchChange}
           sx={{
             backgroundColor: "#FF2625",
@@ -158,11 +108,15 @@ export const SearchExercises = () => {
         </Button>
       </Box>
       <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
-        {/* TODO: Horizontalscroll */}
-        {!bodyPartsDataLoading &&
-          bodyParts.map((bodyPart) => (
-            <Typography key={bodyPart}>{bodyPart}</Typography>
-          ))}
+        {bodyPartsDataLoading ? (
+          <Typography>Loading</Typography>
+        ) : (
+          <HorizontalScrollbar
+            data={bodyParts}
+            bodyPart={bodyPart}
+            setBodyPart={setBodyPart}
+          />
+        )}
       </Box>
     </Stack>
   );
