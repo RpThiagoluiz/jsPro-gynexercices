@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import { Box, Stack, Typography } from "@mui/material";
-import { endPoints } from "../../Services";
-import { ExerciseCard } from "./components/ExerciseCard";
+import { ExerciseCard } from "../ExerciseCard";
 import { useExercisesContext } from "../../Hooks";
 
 type IExercise = {

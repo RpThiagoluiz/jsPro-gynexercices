@@ -1,6 +1,5 @@
-import { AxiosError } from "axios";
 import useAxios from "axios-hooks";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { headers } from "../../requests/fetchExercises";
 import { endPoints } from "../../Services";
 

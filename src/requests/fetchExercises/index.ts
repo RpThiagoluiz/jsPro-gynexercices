@@ -1,6 +1,8 @@
 export const headers = {
   rapidApiExercisesKey: `${process.env.REACT_APP_RAPIDAPI_KEY}`,
   rapidApiExercisesHost: `${process.env.REACT_APP_RAPIDAPI_HOST}`,
+  rapidApiYoutubeSearchVideoKey: `${process.env.REACT_APP_RAPIDAPI_YOUTUBE_SEARCH_KEY}`,
+  rapidApiYoutubeSearchVideoHost: `${process.env.REACT_APP_RAPIDAPI_YOUTUBE_SEARCH_HOST}`,
 };
 
 export const exercisesOptions = {

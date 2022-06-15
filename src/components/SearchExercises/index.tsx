@@ -37,7 +37,6 @@ export const SearchExercises = () => {
 
   const handleSearchChange = async () => {
     if (search) {
-      console.log(`search - ${search}`);
       await fetchExercises();
       filterExercises();
     }

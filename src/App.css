@@ -104,6 +104,12 @@ body {
   text-decoration: none;
 }
 
+.exercise-video-thumbnail {
+  border-top-left-radius: 50px;
+  border-bottom-right-radius: 15px;
+  object-fit: contain;
+}
+
 @media screen and (max-width: 1200px) {
   .detail-image {
     width: 300px;
