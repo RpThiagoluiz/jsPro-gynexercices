@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { endPoints } from "../../Services";
+import { EmptyData } from "../EmptyData";
 
 type IVideoContents = {
   video: {
@@ -36,6 +37,10 @@ export const ExerciseVideos = ({
   exerciseVideoData,
   exerciseDetailName,
 }: Props) => {
+  if (!exerciseVideoData.contents.length) {
+    return <EmptyData />;
+  }
+
   return (
     <Box sx={{ marginTop: { lg: "200px", xs: "20px" } }} p="20px">
       <Typography variant="h4" mb="33px">

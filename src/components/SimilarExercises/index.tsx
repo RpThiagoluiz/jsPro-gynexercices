@@ -1,6 +1,4 @@
-import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { HorizontalScrollbar } from "../HorizontalScrollbar";
 import { SimilarCardList } from "../SimilarCardList";
 
 type ITargetMuscleExercise = {

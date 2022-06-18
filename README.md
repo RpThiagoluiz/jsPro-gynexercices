@@ -7,8 +7,6 @@ rapidapi
 
 ### Falta
 
-404 !found
-Nao encontrar a pesquisa e nao tiver Data.
 Stack por volta das images
 Filtar nao estiver resultado, mostar um mensagem
 

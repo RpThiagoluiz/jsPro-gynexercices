@@ -1,4 +1,5 @@
 import { Stack, Typography } from "@mui/material";
+import { EmptyData } from "../EmptyData";
 import { ExerciseCard } from "../ExerciseCard";
 
 type IExercise = {
@@ -22,12 +23,15 @@ export const SimilarCardList = ({ title, exercises }: Props) => {
         {title}
       </Typography>
       <Stack direction="row" sx={{ p: "2", position: "relative" }}>
-        {exercises.length &&
+        {exercises.length ? (
           exercises.slice(0, 4).map((exercise) => (
             <Stack m={2}>
               <ExerciseCard exercise={exercise} />
             </Stack>
-          ))}
+          ))
+        ) : (
+          <EmptyData />
+        )}
       </Stack>
     </>
   );

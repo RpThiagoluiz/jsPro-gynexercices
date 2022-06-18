@@ -4,6 +4,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { ExerciseCard } from "../ExerciseCard";
 import { useExercisesContext } from "../../Hooks";
 import { Loader } from "../Loader";
+import { EmptyData } from "../EmptyData";
 
 type IExercise = {
   bodyPart: string;
@@ -56,6 +57,10 @@ export const Exercises = () => {
 
   if (loadingExercises) {
     return <Loader />;
+  }
+
+  if (!currentExercises.length) {
+    return <EmptyData />;
   }
 
   return (
