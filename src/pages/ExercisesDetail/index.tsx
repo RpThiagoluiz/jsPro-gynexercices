@@ -7,6 +7,16 @@ import { SimilarExercises } from "../../components/SimilarExercises";
 import { endPoints } from "../../Services";
 import useAxios from "axios-hooks";
 import { headers } from "../../requests/fetchExercises";
+import { Loader } from "../../components/Loader";
+
+type IExercise = {
+  bodyPart: "";
+  equipment: "";
+  gifUrl: "";
+  id: "";
+  name: "";
+  target: "";
+};
 
 type IVideoContents = {
   video: {
@@ -35,7 +45,7 @@ type IExerciseVideoData = {
 };
 
 export const ExerciseDetail = () => {
-  const [exerciseDetail, setExerciseDetail] = useState({
+  const [exerciseDetail, setExerciseDetail] = useState<IExercise>({
     bodyPart: "",
     equipment: "",
     gifUrl: "",
@@ -50,6 +60,15 @@ export const ExerciseDetail = () => {
       estimatedResults: "",
       next: "",
     });
+
+  const [targetMuscleExercise, setTargetMuscleExercise] = useState<IExercise[]>(
+    []
+  );
+
+  const [equipementExerciseSimilarTarget, setEquipementExerciseSimilarTarget] =
+    useState<IExercise[]>([]);
+
+  const [loadingAllFetch, setLoadingAllFetch] = useState(false);
 
   const { id } = useParams();
 
@@ -77,11 +96,11 @@ export const ExerciseDetail = () => {
 
   useEffect(() => {
     const fetchExercisesDetails = async () => {
+      setLoadingAllFetch(true);
       const url = id && endPoints.exercisesDetail.replace("{id}", id);
       const { data: exerciseDetailData } = await getExercises({
         url,
       });
-      setExerciseDetail(exerciseDetailData);
 
       const { data: videosData } = await getYoutubeSimilarExercises({
         url: `${endPoints.youtubeSearchExercise}`,
@@ -90,17 +109,35 @@ export const ExerciseDetail = () => {
         },
       });
 
+      const urlSimilar = endPoints.exercisesDetailSimilar.replace(
+        "{similarTargetMuscle}",
+        exerciseDetailData.target
+      );
+
+      const urlEquipment = endPoints.equipementExercisesSimilar.replace(
+        "{equipmentExercise}",
+        exerciseDetailData.equipment
+      );
+
+      const { data: exerciseSimilarTargetData } = await getExercises({
+        url: urlSimilar,
+      });
+
+      const { data: equipmentExerciseSimilarTargetData } = await getExercises({
+        url: urlEquipment,
+      });
+
+      setExerciseDetail(exerciseDetailData);
       setExerciseVideoData(videosData);
+      setTargetMuscleExercise(exerciseSimilarTargetData);
+      setEquipementExerciseSimilarTarget(equipmentExerciseSimilarTargetData);
+      setLoadingAllFetch(false);
     };
     fetchExercisesDetails();
   }, []);
 
-  if (loadingExercises && !exerciseDetail.name) {
-    return <Typography>Loading...</Typography>;
-  }
-
-  if (loadingVideosData) {
-    return <Typography>Loading...</Typography>;
+  if (loadingAllFetch && !exerciseDetail.name) {
+    return <Loader />;
   }
 
   return (
@@ -110,7 +147,10 @@ export const ExerciseDetail = () => {
         exerciseVideoData={exerciseVideoData}
         exerciseDetailName={exerciseDetail.name}
       />
-      <SimilarExercises />
+      <SimilarExercises
+        targetMuscleExercise={targetMuscleExercise}
+        equipementExerciseSimilarTarget={equipementExerciseSimilarTarget}
+      />
     </Box>
   );
 };

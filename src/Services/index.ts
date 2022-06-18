@@ -8,6 +8,8 @@ export const endPoints = {
   exercises: `${baseUrls.exercises}/exercises`,
   exercisesDetail: `${baseUrls.exercises}/exercises/exercise/{id}`,
   exercisesBodyPartList: `${baseUrls.exercises}/exercises/bodyPartList`,
+  exercisesDetailSimilar: `${baseUrls.exercises}/exercises/target/{similarTargetMuscle}`,
+  equipementExercisesSimilar: `${baseUrls.exercises}/exercises/equipment/{equipmentExercise}`,
   youtubeSearchExercise: `${baseUrls.youtubeSearch}/search`,
   youtubeWatch: `${baseUrls.youtubeHttp}/watch?v={videoId}`,
 };
