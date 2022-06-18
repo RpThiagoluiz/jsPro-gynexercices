@@ -8,7 +8,6 @@ rapidapi
 ### Falta
 
 Stack por volta das images
-Filtar nao estiver resultado, mostar um mensagem
 
 # ~Deploy~
 
