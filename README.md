@@ -5,12 +5,15 @@
 TypeScript
 rapidapi
 
-Falta
-Loadings ao durante pesquisa.
+### Falta
 
-fix na pesquisa.
-fix na troca de pagina, quando vc trocar ele setar a pagina como a primeira.
 404 !found
-Nao encontrar a pesquisa.
+Nao encontrar a pesquisa e nao tiver Data.
 Stack por volta das images
 Filtar nao estiver resultado, mostar um mensagem
+
+# ~Deploy~
+
+`yarn deploy`
+E buildar ela dentro do netlify.
+Quero fazer via github actions.
