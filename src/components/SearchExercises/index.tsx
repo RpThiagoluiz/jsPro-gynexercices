@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { HorizontalScrollbar } from "../HorizontalScrollbar";
 import { useExercisesContext } from "../../Hooks";
 
 export const SearchExercises = () => {
-  const [search, setSearch] = useState("");
-
   const {
     bodyPart,
     setBodyPart,
-    setExercises,
-    exercises,
+    search,
+    setSearch,
     fetchExercises,
     loadingExercises,
     bodyPartsDataLoading,
@@ -18,27 +16,9 @@ export const SearchExercises = () => {
     bodyParts,
   } = useExercisesContext();
 
-  const filterExercises = () => {
-    if (!exercises) {
-      return;
-    }
-
-    const searchExercises = exercises.filter(
-      (exercise) =>
-        exercise.name.toLowerCase().includes(search) ||
-        exercise.target.toLowerCase().includes(search) ||
-        exercise.equipment.toLowerCase().includes(search) ||
-        exercise.bodyPart.toLowerCase().includes(search)
-    );
-
-    setSearch("");
-    setExercises(searchExercises);
-  };
-
   const handleSearchChange = async () => {
     if (search) {
       await fetchExercises();
-      filterExercises();
     }
   };
 

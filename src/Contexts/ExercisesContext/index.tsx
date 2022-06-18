@@ -19,6 +19,10 @@ type IExercisesContext = {
   setExercises: React.Dispatch<React.SetStateAction<IExercise[]>>;
   bodyParts: string[];
   setBodyParts: React.Dispatch<React.SetStateAction<[] | string[]>>;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   loadingExercises: boolean;
   fetchExercises: () => Promise<void>;
   bodyPartsDataLoading: boolean;
@@ -37,6 +41,8 @@ export const ExercisesContextProvider = ({
   const [bodyPart, setBodyPart] = useState("all");
   const [exercises, setExercises] = useState<IExercise[]>([]);
   const [bodyParts, setBodyParts] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [{ loading: loadingExercises }, getExercises] = useAxios<IExercise[]>(
     {
@@ -64,14 +70,43 @@ export const ExercisesContextProvider = ({
     { manual: true }
   );
 
+  const filterExercises = (exercisesData: IExercise[]) => {
+    const searchExercises = exercisesData.filter(
+      (exercise) =>
+        exercise.name.toLowerCase().includes(search) ||
+        exercise.target.toLowerCase().includes(search) ||
+        exercise.equipment.toLowerCase().includes(search) ||
+        exercise.bodyPart.toLowerCase().includes(search)
+    );
+
+    setSearch("");
+    setExercises(searchExercises);
+  };
+
   const fetchExercises = async () => {
+    if (search) {
+      setBodyPart("all");
+      setCurrentPage(1);
+      const { data: exercisesData } = await getExercises();
+
+      if (!exercisesData) {
+        return; //TODO: handle error
+      }
+
+      filterExercises(exercisesData);
+
+      return;
+    }
+
     if (bodyPart === "all") {
       const { data: exercisesData } = await getExercises();
+      setCurrentPage(1);
       setExercises(exercisesData);
     } else {
       const { data: exercisesData } = await getExercises({
         url: `${endPoints.exercises}/bodyPart/${bodyPart}`,
       });
+      setCurrentPage(1);
       setExercises(exercisesData);
     }
   };
@@ -90,6 +125,10 @@ export const ExercisesContextProvider = ({
         setExercises,
         bodyParts,
         setBodyParts,
+        search,
+        setSearch,
+        currentPage,
+        setCurrentPage,
         loadingExercises,
         fetchExercises,
         bodyPartsDataLoading,

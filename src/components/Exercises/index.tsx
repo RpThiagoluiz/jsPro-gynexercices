@@ -14,13 +14,19 @@ type IExercise = {
 };
 
 export const Exercises = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [currentExercises, setCurrentExercises] = useState<IExercise[]>([]);
 
-  const { bodyPart, exercises, fetchExercises, loadingExercises } =
-    useExercisesContext();
+  const {
+    bodyPart,
+    exercises,
+    fetchExercises,
+    loadingExercises,
+    currentPage,
+    setCurrentPage,
+  } = useExercisesContext();
 
   const exercisesPerPage = 9;
+
   const formatedPagination = () => {
     const indexOfLastExercise = currentPage * exercisesPerPage;
     const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
@@ -35,14 +41,15 @@ export const Exercises = () => {
   const paginate = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 1800, behavior: "smooth" });
+    formatedPagination();
   };
 
   useEffect(() => {
     fetchExercises();
+    setCurrentPage(1);
   }, [bodyPart]);
 
   useEffect(() => {
-    console.log(`thiago exercises`, exercises);
     formatedPagination();
   }, [exercises]);
 
