@@ -3,6 +3,7 @@ import Pagination from "@mui/material/Pagination";
 import { Box, Stack, Typography } from "@mui/material";
 import { ExerciseCard } from "../ExerciseCard";
 import { useExercisesContext } from "../../Hooks";
+import { Loader } from "../Loader";
 
 type IExercise = {
   bodyPart: string;
@@ -54,7 +55,7 @@ export const Exercises = () => {
   }, [exercises]);
 
   if (loadingExercises) {
-    return <Typography>Loading...</Typography>;
+    return <Loader />;
   }
 
   return (

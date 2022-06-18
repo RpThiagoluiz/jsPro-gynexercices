@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import { Bars } from "react-loader-spinner";
+import { Rings } from "react-loader-spinner";
 
 export const Loader = () => {
   return (
@@ -8,9 +8,9 @@ export const Loader = () => {
       justifyContent="center"
       alignItems="center"
       width="100%"
-      mt="25%"
+      mt="5%"
     >
-      <Bars color="gray" width={400} />
+      <Rings color="gray" width={400} />
     </Stack>
   );
 };
