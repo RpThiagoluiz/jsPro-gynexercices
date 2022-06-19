@@ -16,4 +16,4 @@ In this repository i make a simple website for exercises using react, and [Rapid
 
 `Website in Netlify`
 
-- [Netify](https://www.youtube.com/watch?v=KBpoBc98BwM)];
+- [Netify](https://exercisesbythiago.netlify.app/)];
